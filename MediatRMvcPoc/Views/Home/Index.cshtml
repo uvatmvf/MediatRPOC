@@ -1,0 +1,35 @@
+﻿@using MediatR
+@using MediatRPOC
+@{
+    ViewData["Title"] = "Home Page";
+}
+@inject IMediator mediator;
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<div>
+    <button onclick="PingPong" id="pocButton">Click to ping</button>
+    <label id="resultLabel"/>
+</div>
+
+@{
+    async Task<string> PingPong() 
+    {
+        var result = await mediator.Send(new MediatRPing());
+        return $"{result} - {DateTime.Now.ToString()}";
+    }
+}
+@section Scripts
+{
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            var button = document.getElementById('pocButton');
+            button.addEventListener('click', function() {
+                var pingResult = "@PingPong().Result";
+                document.getElementById("resultLabel").innerHTML = pingResult;
+            });
+        }); 
+    </script>
+}

@@ -3,6 +3,7 @@ using MediatRMvcPoc.Models;
 using MediatRPOC;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace MediatRMvcPoc.Controllers
 {
@@ -33,5 +34,12 @@ namespace MediatRMvcPoc.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public async Task<string> PingPong()
+        {
+            var result = await _mediator.Send(new MediatRPing());
+            return $"{result} - {DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss.fff", CultureInfo.InvariantCulture)}";
+        }
+
     }
 }
